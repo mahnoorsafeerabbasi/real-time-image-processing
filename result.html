@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Images</title>
+</head>
+<body>
+    <h1>Filtered Images</h1>
+    <h2>Multithreading Time: {{ multithreading_time }}</h2>
+    <h2>Multiprocessing Time: {{ multiprocessing_time }}</h2>
+    {% for output_image in output_images %}
+        <img src="data:image/jpeg;base64,{{ output_image }}" alt="Filtered Image">
+    {% endfor %}
+</body>
+</html>

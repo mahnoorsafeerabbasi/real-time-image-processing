@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDC Final Project</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .group-members {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result-container {
+            text-align: center;
+        }
+
+        .result-container img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .processing-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .processing-buttons button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parallel & Distributed Computing</h1>
+        <div class="group-members">
+            <p>Real Time visualization and filter application</p>
+            
+        </div>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        <div class="processing-buttons">
+            <button onclick="startRealTimeProcessing('grayscale')">Start Grayscale</button>
+            <button onclick="startRealTimeProcessing('blur')">Start Blur</button>
+            <!-- Add buttons for other filters as needed -->
+        </div>
+
+        <div class="result-container">
+            <img id="processedImage" src="" alt="Processed Image">
+        </div>
+    </div>
+
+    <script>
+        var socket = io();
+
+        function startRealTimeProcessing(filterType) {
+            var fileInput = document.querySelector('input[type="file"]');
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var imageData = event.target.result.split(',')[1]; // Get base64 part of the Data URL
+                socket.emit('start_processing', { image_data: imageData, filter_type: filterType });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        socket.on('image_update', function(data) {
+            var img = document.getElementById('processedImage');
+            img.src = 'data:image/jpeg;base64,' + data.image;
+        });
+    </script>
+</body>
+</html>
