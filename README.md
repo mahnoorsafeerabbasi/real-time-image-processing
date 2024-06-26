@@ -10,8 +10,8 @@ A real-time image processing web application utilizing parallel processing techn
 - Real-time updates using WebSocket (Flask-SocketIO).
 
 ## files structure
-|-----app.py
-|-----templates (folder)--|                                                                                                                                                                                            |----index.html                                                                                                                                                                              |---result.html
+1)app.py
+2)templates (folder)--> (index.html),(result.html)                                                                                                                                                                                          
                 
 
 ## Setup Instructions
