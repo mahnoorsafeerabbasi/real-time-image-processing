@@ -11,9 +11,8 @@ A real-time image processing web application utilizing parallel processing techn
 
 ## files structure
 |-----app.py
-|-----templates--|
-                 |----index.html
-                 |---result.html
+|-----templates (folder)--|                                                                                                                                                                                            |----index.html                                                                                                                                                                              |---result.html
+                
 
 ## Setup Instructions
 
